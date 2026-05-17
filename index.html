@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Test: Movimiento de Proyectiles</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0b0f1a;
@@ -22,7 +22,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Sora', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@
   .header { text-align: center; margin-bottom: 2.5rem; }
   .header .tag {
     display: inline-block;
-    font-family: 'Space Mono', monospace;
+    font-family: 'Open Sans', sans-serif;
     font-size: 11px;
     letter-spacing: 0.15em;
     color: var(--accent);
@@ -71,7 +71,7 @@
   .reg-card h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
   .reg-card p { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5; }
   .field { margin-bottom: 1rem; }
-  .field label { display: block; font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 0.05em; margin-bottom: 6px; text-transform: uppercase; }
+  .field label { display: block; font-size: 12px; color: var(--muted); font-family: 'Open Sans', sans-serif; letter-spacing: 0.05em; margin-bottom: 6px; text-transform: uppercase; }
   .field input {
     width: 100%;
     background: var(--surface2);
@@ -80,7 +80,7 @@
     padding: 10px 14px;
     font-size: 14px;
     color: var(--text);
-    font-family: 'Sora', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     outline: none;
     transition: border-color 0.15s;
   }
@@ -89,7 +89,7 @@
 
   /* Progress */
   .progress-wrap { margin-bottom: 1.5rem; }
-  .progress-info { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .progress-info { display: flex; justify-content: space-between; font-family: 'Open Sans', sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
   .progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
 
@@ -103,7 +103,7 @@
     animation: slideIn 0.3s ease;
   }
   @keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .q-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px; }
+  .q-num { font-family: 'Open Sans', sans-serif; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px; }
   .q-text { font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.55; margin-bottom: 1.25rem; }
 
   .options { display: flex; flex-direction: column; gap: 10px; }
@@ -116,10 +116,10 @@
     cursor: pointer; text-align: left;
     transition: border-color 0.15s, background 0.15s, transform 0.1s;
     display: flex; align-items: center; gap: 12px;
-    font-family: 'Sora', sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
   .option:hover:not(:disabled) { border-color: rgba(240,192,64,0.4); background: rgba(240,192,64,0.05); transform: translateX(3px); }
-  .option .letter { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); min-width: 18px; }
+  .option .letter { font-family: 'Open Sans', sans-serif; font-size: 11px; color: var(--muted); min-width: 18px; }
   .option.correct { background: rgba(46,204,113,0.1); border-color: var(--correct); color: #a8f0c4; }
   .option.correct .letter { color: var(--correct); }
   .option.wrong { background: rgba(231,76,60,0.1); border-color: var(--wrong); color: #f0b4b4; }
@@ -130,11 +130,11 @@
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   .feedback.ok { background: rgba(46,204,113,0.08); border-left: 3px solid var(--correct); color: #a8f0c4; }
   .feedback.fail { background: rgba(231,76,60,0.08); border-left: 3px solid var(--wrong); color: #f0b4b4; }
-  .feedback strong { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+  .feedback strong { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; font-family: 'Open Sans', sans-serif; }
 
   .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
   .btn {
-    font-family: 'Sora', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 13px; font-weight: 600;
     padding: 9px 20px; border-radius: 8px;
     border: 1px solid rgba(255,255,255,0.12);
@@ -163,17 +163,17 @@
     margin: 0 auto 1.5rem;
   }
   .score-pct { font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .score-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
+  .score-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Open Sans', sans-serif; }
   .score-screen h2 { font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; }
   .score-msg { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 1.75rem; max-width: 400px; margin-left: auto; margin-right: auto; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.75rem; }
   .stat { background: var(--surface2); border-radius: 8px; padding: 14px 10px; }
   .stat-num { font-size: 22px; font-weight: 700; color: var(--text); }
-  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Open Sans', sans-serif; }
   .stat-num.c { color: var(--correct); }
   .stat-num.w { color: var(--wrong); }
 
-  .sending { font-size: 13px; color: var(--muted); margin-top: 1rem; font-family: 'Space Mono', monospace; }
+  .sending { font-size: 13px; color: var(--muted); margin-top: 1rem; font-family: 'Open Sans', sans-serif; }
 
   .deco { position: fixed; top: 0; right: 0; width: 300px; height: 300px; opacity: 0.06; pointer-events: none; z-index: 0; }
 </style>
@@ -188,22 +188,19 @@
 
 <div class="container">
 
-  <!-- Banner informativo para el docente -->
-  <div style="background:#131929;border:1px solid rgba(240,192,64,0.25);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-    <div>
-      <div style="font-family:'Space Mono',monospace;font-size:10px;color:#f0c040;letter-spacing:0.12em;margin-bottom:6px;">UNIDAD 5 · PRODUCCIÓN DE MEDIOS INTERACTIVOS</div>
-      <div style="font-size:14px;color:#e8eaf0;font-weight:600;margin-bottom:4px;">Documentación completa del proyecto</div>
-      <div style="font-size:12px;color:#7a8099;">Objetivo, wireframe, herramientas, público y experiencia de trabajo.</div>
-    </div>
-    <a href="https://docs.google.com/document/d/1bCVj_l8E_jvm3lCBJwqPRo0ZMGK2uqBB/edit?usp=drive_link&ouid=111159620115561583799&rtpof=true&sd=true" target="_blank" style="background:#f0c040;color:#0b0f1a;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;padding:10px 20px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;">Ver documento →</a>
+  <div class="header">
+    <div class="tag">Física</div>
+    <h1>Variables en el movimiento<br>de <span>proyectiles</span></h1>
+    <p>Regístrate y pon a prueba lo que aprendiste.</p>
   </div>
 
-  <div class="header">
-    <div class="tag">Física · Cinemática</div>
-    <h1>Variables en el movimiento<br>de <span>proyectiles</span></h1>
-    <p>Regístrate y pon a prueba lo que aprendiste en el vídeo.</p>
-  </div>
   <div id="app"></div>
+
+  <!-- Info de la actividad -->
+  <div style="margin-top:1.25rem;text-align:center;">
+    <p style="font-size:13px;color:#7a8099;margin-bottom:0.75rem;">Para obtener más información sobre la creación de este medio interactivo, ve el documento.</p>
+    <a href="https://docs.google.com/document/d/1bCVj_l8E_jvm3lCBJwqPRo0ZMGK2uqBB/edit?usp=drive_link&ouid=111159620115561583799&rtpof=true&sd=true" target="_blank" style="background:#f0c040;color:#0b0f1a;font-family:'Open Sans',sans-serif;font-size:13px;font-weight:700;padding:10px 24px;border-radius:8px;text-decoration:none;display:inline-block;">Ver anexo →</a>
+  </div>
 </div>
 
 <script>
