@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test: Movimiento de Proyectiles</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --surface: #131929;
+    --surface2: #1a2236;
+    --accent: #f0c040;
+    --accent2: #4af0c0;
+    --text: #e8eaf0;
+    --muted: #7a8099;
+    --correct: #2ecc71;
+    --wrong: #e74c3c;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+  }
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(240,192,64,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(240,192,64,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 680px; width: 100%; position: relative; z-index: 1; }
+
+  /* Header */
+  .header { text-align: center; margin-bottom: 2.5rem; }
+  .header .tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .header h1 span { color: var(--accent); }
+  .header p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* Progress */
+  .progress-wrap { margin-bottom: 1.5rem; }
+  .progress-info {
+    display: flex; justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .progress-track {
+    height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--accent);
+    border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* Question card */
+  .question-card {
+    background: var(--surface);
+    border: 1px solid rgba(240,192,64,0.12);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .q-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--accent);
+    letter-spacing: 0.1em; margin-bottom: 12px;
+  }
+  .q-text {
+    font-size: 16px; font-weight: 600;
+    color: var(--text); line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Options */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px; color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .option:hover:not(:disabled) {
+    border-color: rgba(240,192,64,0.4);
+    background: rgba(240,192,64,0.05);
+    transform: translateX(3px);
+  }
+  .option .letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    min-width: 18px;
+  }
+  .option.correct {
+    background: rgba(46,204,113,0.1);
+    border-color: var(--correct);
+    color: #a8f0c4;
+  }
+  .option.correct .letter { color: var(--correct); }
+  .option.wrong {
+    background: rgba(231,76,60,0.1);
+    border-color: var(--wrong);
+    color: #f0b4b4;
+  }
+  .option.wrong .letter { color: var(--wrong); }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px; line-height: 1.6;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .feedback.ok { background: rgba(46,204,113,0.08); border-left: 3px solid var(--correct); color: #a8f0c4; }
+  .feedback.fail { background: rgba(231,76,60,0.08); border-left: 3px solid var(--wrong); color: #f0b4b4; }
+  .feedback strong { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
+
+  /* Nav */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .btn {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px; font-weight: 600;
+    padding: 9px 20px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: transparent; color: var(--muted);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.3); color: var(--text); }
+  .btn:disabled { opacity: 0.25; cursor: default; }
+  .btn.primary {
+    background: var(--accent); color: #0b0f1a;
+    border-color: var(--accent); font-weight: 700;
+  }
+  .btn.primary:hover:not(:disabled) { background: #f5d060; }
+
+  /* Score screen */
+  .score-screen {
+    background: var(--surface);
+    border: 1px solid rgba(240,192,64,0.2);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    animation: slideIn 0.4s ease;
+  }
+  .score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+  }
+  .score-pct { font-size: 32px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .score-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
+  .score-screen h2 { font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; }
+  .score-msg { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 1.75rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-bottom: 1.75rem;
+  }
+  .stat {
+    background: var(--surface2); border-radius: 8px; padding: 14px 10px;
+  }
+  .stat-num { font-size: 22px; font-weight: 700; color: var(--text); }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
+  .stat-num.c { color: var(--correct); }
+  .stat-num.w { color: var(--wrong); }
+
+  /* Trajectory decoration */
+  .deco {
+    position: fixed; top: 0; right: 0;
+    width: 300px; height: 300px;
+    opacity: 0.06; pointer-events: none; z-index: 0;
+  }
+</style>
+</head>
+<body>
+
+<svg class="deco" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 280 Q80 60 280 20" stroke="#f0c040" stroke-width="2" fill="none" stroke-dasharray="6 4"/>
+  <circle cx="280" cy="20" r="6" fill="#f0c040"/>
+  <circle cx="20" cy="280" r="4" fill="#f0c040"/>
+</svg>
+
+<div class="container">
+  <div class="header">
+    <div class="tag">Física · Cinemática</div>
+    <h1>Variables en el movimiento<br>de <span>proyectiles</span></h1>
+    <p>10 preguntas basadas en el vídeo educativo. Pon a prueba lo que aprendiste.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span id="prog-label">Pregunta 1 de 10</span>
+      <span id="prog-score">0 correctas</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div id="quiz-body"></div>
+</div>
+
+<script>
+const letters = ['A','B','C','D'];
+const questions = [
+  { q:"¿Por qué la trayectoria de un proyectil forma una parábola y no una línea recta?", opts:["Por la resistencia del aire","Por la gravedad, que curva el movimiento hacia el suelo","Por la velocidad inicial del objeto","Por la masa del proyectil"], ans:1, fb:"La gravedad es la responsable. Sin ella, cualquier objeto lanzado seguiría en línea recta indefinidamente." },
+  { q:"¿Qué afirmación es correcta sobre los movimientos horizontal y vertical en un proyectil?", opts:["Están relacionados: si uno cambia, el otro también cambia directamente","Son completamente independientes entre sí","El horizontal siempre domina al vertical","Depende del ángulo de lanzamiento"], ans:1, fb:"Son independientes. La gravedad solo actúa verticalmente y no le importa cuánta velocidad horizontal tenga el objeto." },
+  { q:"Una pelota rueda sobre una mesa y cae al llegar al borde. Si aumentas su velocidad horizontal, ¿qué ocurre con el tiempo que tarda en llegar al suelo?", opts:["Tarda menos tiempo","Tarda más tiempo","Siempre tarda el mismo tiempo","Depende del peso de la pelota"], ans:2, fb:"Siempre tarda el mismo tiempo. La gravedad solo actúa hacia abajo; la velocidad horizontal no afecta la caída vertical." },
+  { q:"¿Qué ángulo de lanzamiento produce el mayor alcance horizontal cuando no hay resistencia del aire?", opts:["30°","60°","45°","90°"], ans:2, fb:"45° es el ángulo óptimo porque logra el mejor equilibrio entre velocidad horizontal y tiempo en el aire." },
+  { q:"Un disparo a 30° y otro a 60° con la misma velocidad inicial, ¿qué tienen en común?", opts:["La misma altura máxima","El mismo alcance horizontal","El mismo tiempo de vuelo","La misma velocidad en el impacto"], ans:1, fb:"Caen en el mismo punto. Lo que el disparo a 60° gana en altura, lo pierde en velocidad horizontal, compensándose exactamente." },
+  { q:"Si aumentas la velocidad inicial de un proyectil manteniendo el ángulo fijo en 45°, ¿qué ocurre?", opts:["Solo aumenta la altura, el alcance queda igual","Solo aumenta el alcance, la altura queda igual","Aumentan tanto la altura como el alcance","La forma de la trayectoria cambia completamente"], ans:2, fb:"Aumentan ambas. Más velocidad inicial escala todo el movimiento: más componente horizontal y más componente vertical al mismo tiempo." },
+  { q:"¿Cómo afecta una mayor altura de salida al alcance del proyectil?", opts:["Lo reduce porque hay más distancia al suelo","No tiene ningún efecto sobre el alcance","Lo aumenta porque el proyectil tiene más tiempo en el aire","Depende exclusivamente del ángulo"], ans:2, fb:"A mayor altura de salida, más tiempo en el aire, y ese tiempo extra se traduce directamente en mayor alcance." },
+  { q:"¿Qué efecto tiene la resistencia del aire sobre la forma de la trayectoria?", opts:["La trayectoria sigue siendo simétrica pero más pequeña","La subida se vuelve más corta y la bajada más larga","La subida es más larga y suave; la bajada, más corta y pronunciada","Solo reduce el alcance sin cambiar la forma"], ans:2, fb:"La resistencia actúa contra el movimiento. En la subida frena más (el objeto va más rápido), haciendo la subida más larga; la bajada resulta más corta y pronunciada." },
+  { q:"Sin resistencia del aire, ¿cómo afecta la masa del proyectil a su trayectoria?", opts:["Un objeto más pesado llega más lejos","La masa no afecta la trayectoria","Un objeto más ligero llega más lejos","Depende del ángulo de lanzamiento"], ans:1, fb:"Sin resistencia del aire, la masa no importa. Una bala de cañón y una pelota de golf lanzadas igual caen exactamente en el mismo punto." },
+  { q:"¿Por qué un proyectil lanzado en la cima de una montaña llega más lejos que uno lanzado al nivel del mar con las mismas condiciones?", opts:["La gravedad es mayor en la cima","El aire es menos denso en la cima, por lo que hay menos resistencia","El viento siempre ayuda en las alturas","La temperatura baja aumenta la velocidad inicial"], ans:1, fb:"A mayor altitud el aire es menos denso, lo que reduce la resistencia aerodinámica y permite que el proyectil recorra más distancia." }
+];
+
+let cur = 0, score = 0, answered = new Array(questions.length).fill(null);
+
+function update() {
+  const pct = Math.round((cur / questions.length) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = cur < questions.length ? `Pregunta ${cur+1} de ${questions.length}` : 'Finalizado';
+  document.getElementById('prog-score').textContent = `${score} correcta${score!==1?'s':''}`;
+
+  if (cur >= questions.length) { renderScore(); return; }
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[cur];
+  const a = answered[cur];
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="question-card">
+      <div class="q-num">PREGUNTA ${cur+1} / ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((o,i) => {
+          let cls = 'option';
+          if (a !== null) { if (i===q.ans) cls+=' correct'; else if (i===a) cls+=' wrong'; }
+          return `<button class="${cls}" onclick="choose(${i})" ${a!==null?'disabled':''}><span class="letter">${letters[i]}</span>${o}</button>`;
+        }).join('')}
+      </div>
+      <div class="feedback ${a!==null?(a===q.ans?'ok':'fail'):''} ${a!==null?'show':''}">
+        <strong>${a!==null?(a===q.ans?'✓ Correcto':'✗ Incorrecto'):''}</strong>${q.fb}
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn" onclick="go(-1)" ${cur===0?'disabled':''}>← Anterior</button>
+      <button class="btn primary" onclick="go(1)" ${a===null?'disabled':''}>Siguiente →</button>
+    </div>`;
+}
+
+function renderScore() {
+  const pct = Math.round((score/questions.length)*100);
+  let msg = '';
+  if (pct>=90) msg='¡Dominas el tema! Tienes una comprensión sólida de todas las variables que afectan el movimiento de proyectiles.';
+  else if (pct>=70) msg='Buen trabajo. Repasa los conceptos sobre resistencia del aire, masa y altitud para consolidar tu aprendizaje.';
+  else if (pct>=50) msg='Vas por buen camino. Te recomendamos revisar el vídeo, prestando atención al ángulo, la velocidad y la independencia de movimientos.';
+  else msg='Sigue practicando. Vuelve a ver el vídeo con calma y regresa a intentarlo de nuevo.';
+
+  document.getElementById('quiz-body').innerHTML = `
+    <div class="score-screen">
+      <div class="score-circle">
+        <div class="score-pct">${pct}%</div>
+        <div class="score-lbl">puntaje</div>
+      </div>
+      <h2>${pct>=70?'¡Bien hecho!':'Sigue intentándolo'}</h2>
+      <p class="score-msg">${msg}</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-num c">${score}</div><div class="stat-label">CORRECTAS</div></div>
+        <div class="stat"><div class="stat-num w">${questions.length-score}</div><div class="stat-label">INCORRECTAS</div></div>
+        <div class="stat"><div class="stat-num">${questions.length}</div><div class="stat-label">TOTAL</div></div>
+      </div>
+      <button class="btn primary" onclick="restart()">Intentar de nuevo</button>
+    </div>`;
+}
+
+function choose(i) {
+  if (answered[cur]!==null) return;
+  answered[cur]=i;
+  if (i===questions[cur].ans) score++;
+  update();
+}
+
+function go(dir) {
+  cur += dir;
+  if (cur>questions.length) cur=questions.length;
+  if (cur<0) cur=0;
+  update();
+}
+
+function restart() {
+  cur=0; score=0; answered=new Array(questions.length).fill(null); update();
+}
+
+update();
+</script>
+</body>
+</html>
