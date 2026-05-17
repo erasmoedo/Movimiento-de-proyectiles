@@ -29,7 +29,6 @@
     align-items: center;
     padding: 2rem 1rem 4rem;
   }
-  /* Background grid */
   body::before {
     content: '';
     position: fixed;
@@ -41,10 +40,8 @@
     pointer-events: none;
     z-index: 0;
   }
-
   .container { max-width: 680px; width: 100%; position: relative; z-index: 1; }
 
-  /* Header */
   .header { text-align: center; margin-bottom: 2.5rem; }
   .header .tag {
     display: inline-block;
@@ -58,33 +55,45 @@
     margin-bottom: 1rem;
     text-transform: uppercase;
   }
-  .header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-  }
+  .header h1 { font-size: 28px; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 0.5rem; }
   .header h1 span { color: var(--accent); }
   .header p { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
+  /* Registro */
+  .reg-card {
+    background: var(--surface);
+    border: 1px solid rgba(240,192,64,0.15);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.3s ease;
+  }
+  .reg-card h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .reg-card p { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 12px; color: var(--muted); font-family: 'Space Mono', monospace; letter-spacing: 0.05em; margin-bottom: 6px; text-transform: uppercase; }
+  .field input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus { border-color: var(--accent); }
+  .field input::placeholder { color: var(--muted); }
+
   /* Progress */
   .progress-wrap { margin-bottom: 1.5rem; }
-  .progress-info {
-    display: flex; justify-content: space-between;
-    font-family: 'Space Mono', monospace;
-    font-size: 12px; color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .progress-track {
-    height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%; background: var(--accent);
-    border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
-  }
+  .progress-info { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .progress-track { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
 
-  /* Question card */
+  /* Question */
   .question-card {
     background: var(--surface);
     border: 1px solid rgba(240,192,64,0.12);
@@ -93,22 +102,10 @@
     margin-bottom: 1rem;
     animation: slideIn 0.3s ease;
   }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .q-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; color: var(--accent);
-    letter-spacing: 0.1em; margin-bottom: 12px;
-  }
-  .q-text {
-    font-size: 16px; font-weight: 600;
-    color: var(--text); line-height: 1.55;
-    margin-bottom: 1.25rem;
-  }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .q-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px; }
+  .q-text { font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.55; margin-bottom: 1.25rem; }
 
-  /* Options */
   .options { display: flex; flex-direction: column; gap: 10px; }
   .option {
     background: var(--surface2);
@@ -116,53 +113,26 @@
     border-radius: 8px;
     padding: 12px 16px;
     font-size: 14px; color: var(--text);
-    cursor: pointer;
-    text-align: left;
+    cursor: pointer; text-align: left;
     transition: border-color 0.15s, background 0.15s, transform 0.1s;
     display: flex; align-items: center; gap: 12px;
+    font-family: 'Sora', sans-serif;
   }
-  .option:hover:not(:disabled) {
-    border-color: rgba(240,192,64,0.4);
-    background: rgba(240,192,64,0.05);
-    transform: translateX(3px);
-  }
-  .option .letter {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px; color: var(--muted);
-    min-width: 18px;
-  }
-  .option.correct {
-    background: rgba(46,204,113,0.1);
-    border-color: var(--correct);
-    color: #a8f0c4;
-  }
+  .option:hover:not(:disabled) { border-color: rgba(240,192,64,0.4); background: rgba(240,192,64,0.05); transform: translateX(3px); }
+  .option .letter { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); min-width: 18px; }
+  .option.correct { background: rgba(46,204,113,0.1); border-color: var(--correct); color: #a8f0c4; }
   .option.correct .letter { color: var(--correct); }
-  .option.wrong {
-    background: rgba(231,76,60,0.1);
-    border-color: var(--wrong);
-    color: #f0b4b4;
-  }
+  .option.wrong { background: rgba(231,76,60,0.1); border-color: var(--wrong); color: #f0b4b4; }
   .option.wrong .letter { color: var(--wrong); }
 
-  /* Feedback */
-  .feedback {
-    margin-top: 14px;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 13px; line-height: 1.6;
-    display: none;
-  }
+  .feedback { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.6; display: none; }
   .feedback.show { display: block; animation: fadeIn 0.3s ease; }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   .feedback.ok { background: rgba(46,204,113,0.08); border-left: 3px solid var(--correct); color: #a8f0c4; }
   .feedback.fail { background: rgba(231,76,60,0.08); border-left: 3px solid var(--wrong); color: #f0b4b4; }
   .feedback strong { display: block; margin-bottom: 4px; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; font-family: 'Space Mono', monospace; }
 
-  /* Nav */
-  .nav {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 1rem;
-  }
+  .nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; }
   .btn {
     font-family: 'Sora', sans-serif;
     font-size: 13px; font-weight: 600;
@@ -173,13 +143,10 @@
   }
   .btn:hover:not(:disabled) { border-color: rgba(255,255,255,0.3); color: var(--text); }
   .btn:disabled { opacity: 0.25; cursor: default; }
-  .btn.primary {
-    background: var(--accent); color: #0b0f1a;
-    border-color: var(--accent); font-weight: 700;
-  }
+  .btn.primary { background: var(--accent); color: #0b0f1a; border-color: var(--accent); font-weight: 700; }
   .btn.primary:hover:not(:disabled) { background: #f5d060; }
 
-  /* Score screen */
+  /* Score */
   .score-screen {
     background: var(--surface);
     border: 1px solid rgba(240,192,64,0.2);
@@ -189,8 +156,7 @@
     animation: slideIn 0.4s ease;
   }
   .score-circle {
-    width: 120px; height: 120px;
-    border-radius: 50%;
+    width: 120px; height: 120px; border-radius: 50%;
     border: 3px solid var(--accent);
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -200,24 +166,16 @@
   .score-lbl { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
   .score-screen h2 { font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; }
   .score-msg { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 1.75rem; max-width: 400px; margin-left: auto; margin-right: auto; }
-  .stats {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-    margin-bottom: 1.75rem;
-  }
-  .stat {
-    background: var(--surface2); border-radius: 8px; padding: 14px 10px;
-  }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1.75rem; }
+  .stat { background: var(--surface2); border-radius: 8px; padding: 14px 10px; }
   .stat-num { font-size: 22px; font-weight: 700; color: var(--text); }
   .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; font-family: 'Space Mono', monospace; }
   .stat-num.c { color: var(--correct); }
   .stat-num.w { color: var(--wrong); }
 
-  /* Trajectory decoration */
-  .deco {
-    position: fixed; top: 0; right: 0;
-    width: 300px; height: 300px;
-    opacity: 0.06; pointer-events: none; z-index: 0;
-  }
+  .sending { font-size: 13px; color: var(--muted); margin-top: 1rem; font-family: 'Space Mono', monospace; }
+
+  .deco { position: fixed; top: 0; right: 0; width: 300px; height: 300px; opacity: 0.06; pointer-events: none; z-index: 0; }
 </style>
 </head>
 <body>
@@ -232,21 +190,13 @@
   <div class="header">
     <div class="tag">Física · Cinemática</div>
     <h1>Variables en el movimiento<br>de <span>proyectiles</span></h1>
-    <p>10 preguntas basadas en el vídeo educativo. Pon a prueba lo que aprendiste.</p>
+    <p>Regístrate y pon a prueba lo que aprendiste en el vídeo.</p>
   </div>
-
-  <div class="progress-wrap">
-    <div class="progress-info">
-      <span id="prog-label">Pregunta 1 de 10</span>
-      <span id="prog-score">0 correctas</span>
-    </div>
-    <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-  </div>
-
-  <div id="quiz-body"></div>
+  <div id="app"></div>
 </div>
 
 <script>
+const FORMSPREE = 'https://formspree.io/f/xdajnrpl';
 const letters = ['A','B','C','D'];
 const questions = [
   { q:"¿Por qué la trayectoria de un proyectil forma una parábola y no una línea recta?", opts:["Por la resistencia del aire","Por la gravedad, que curva el movimiento hacia el suelo","Por la velocidad inicial del objeto","Por la masa del proyectil"], ans:1, fb:"La gravedad es la responsable. Sin ella, cualquier objeto lanzado seguiría en línea recta indefinidamente." },
@@ -256,27 +206,57 @@ const questions = [
   { q:"Un disparo a 30° y otro a 60° con la misma velocidad inicial, ¿qué tienen en común?", opts:["La misma altura máxima","El mismo alcance horizontal","El mismo tiempo de vuelo","La misma velocidad en el impacto"], ans:1, fb:"Caen en el mismo punto. Lo que el disparo a 60° gana en altura, lo pierde en velocidad horizontal, compensándose exactamente." },
   { q:"Si aumentas la velocidad inicial de un proyectil manteniendo el ángulo fijo en 45°, ¿qué ocurre?", opts:["Solo aumenta la altura, el alcance queda igual","Solo aumenta el alcance, la altura queda igual","Aumentan tanto la altura como el alcance","La forma de la trayectoria cambia completamente"], ans:2, fb:"Aumentan ambas. Más velocidad inicial escala todo el movimiento: más componente horizontal y más componente vertical al mismo tiempo." },
   { q:"¿Cómo afecta una mayor altura de salida al alcance del proyectil?", opts:["Lo reduce porque hay más distancia al suelo","No tiene ningún efecto sobre el alcance","Lo aumenta porque el proyectil tiene más tiempo en el aire","Depende exclusivamente del ángulo"], ans:2, fb:"A mayor altura de salida, más tiempo en el aire, y ese tiempo extra se traduce directamente en mayor alcance." },
-  { q:"¿Qué efecto tiene la resistencia del aire sobre la forma de la trayectoria?", opts:["La trayectoria sigue siendo simétrica pero más pequeña","La subida se vuelve más corta y la bajada más larga","La subida es más larga y suave; la bajada, más corta y pronunciada","Solo reduce el alcance sin cambiar la forma"], ans:2, fb:"La resistencia actúa contra el movimiento. En la subida frena más (el objeto va más rápido), haciendo la subida más larga; la bajada resulta más corta y pronunciada." },
+  { q:"¿Qué efecto tiene la resistencia del aire sobre la forma de la trayectoria?", opts:["La trayectoria sigue siendo simétrica pero más pequeña","La subida se vuelve más corta y la bajada más larga","La subida es más larga y suave; la bajada, más corta y pronunciada","Solo reduce el alcance sin cambiar la forma"], ans:2, fb:"La resistencia actúa contra el movimiento. En la subida frena más, haciendo la subida más larga; la bajada resulta más corta y pronunciada." },
   { q:"Sin resistencia del aire, ¿cómo afecta la masa del proyectil a su trayectoria?", opts:["Un objeto más pesado llega más lejos","La masa no afecta la trayectoria","Un objeto más ligero llega más lejos","Depende del ángulo de lanzamiento"], ans:1, fb:"Sin resistencia del aire, la masa no importa. Una bala de cañón y una pelota de golf lanzadas igual caen exactamente en el mismo punto." },
   { q:"¿Por qué un proyectil lanzado en la cima de una montaña llega más lejos que uno lanzado al nivel del mar con las mismas condiciones?", opts:["La gravedad es mayor en la cima","El aire es menos denso en la cima, por lo que hay menos resistencia","El viento siempre ayuda en las alturas","La temperatura baja aumenta la velocidad inicial"], ans:1, fb:"A mayor altitud el aire es menos denso, lo que reduce la resistencia aerodinámica y permite que el proyectil recorra más distancia." }
 ];
 
 let cur = 0, score = 0, answered = new Array(questions.length).fill(null);
+let userData = { nombre: '', correo: '' };
 
-function update() {
-  const pct = Math.round((cur / questions.length) * 100);
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-label').textContent = cur < questions.length ? `Pregunta ${cur+1} de ${questions.length}` : 'Finalizado';
-  document.getElementById('prog-score').textContent = `${score} correcta${score!==1?'s':''}`;
+function render(html) { document.getElementById('app').innerHTML = html; }
 
-  if (cur >= questions.length) { renderScore(); return; }
+function renderForm() {
+  render(`
+    <div class="reg-card">
+      <h2>Antes de comenzar</h2>
+      <p>Ingresa tus datos para registrar tu resultado al finalizar el test.</p>
+      <div class="field">
+        <label>Nombre completo</label>
+        <input type="text" id="inp-nombre" placeholder="Ej: Juan Pérez" value="${userData.nombre}">
+      </div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input type="email" id="inp-correo" placeholder="Ej: juan@correo.com" value="${userData.correo}">
+      </div>
+      <div style="margin-top:1.5rem">
+        <button class="btn primary" onclick="startTest()" style="width:100%;padding:12px">Comenzar el test →</button>
+      </div>
+    </div>`);
+}
+
+function startTest() {
+  const n = document.getElementById('inp-nombre').value.trim();
+  const c = document.getElementById('inp-correo').value.trim();
+  if (!n || !c) { alert('Por favor completa tu nombre y correo.'); return; }
+  if (!c.includes('@')) { alert('Ingresa un correo válido.'); return; }
+  userData = { nombre: n, correo: c };
+  cur = 0; score = 0; answered = new Array(questions.length).fill(null);
   renderQuestion();
 }
 
 function renderQuestion() {
   const q = questions[cur];
   const a = answered[cur];
-  document.getElementById('quiz-body').innerHTML = `
+  const pct = Math.round((cur / questions.length) * 100);
+  render(`
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span>Pregunta ${cur+1} de ${questions.length}</span>
+        <span>${score} correcta${score!==1?'s':''}</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
     <div class="question-card">
       <div class="q-num">PREGUNTA ${cur+1} / ${questions.length}</div>
       <div class="q-text">${q.q}</div>
@@ -294,18 +274,32 @@ function renderQuestion() {
     <div class="nav">
       <button class="btn" onclick="go(-1)" ${cur===0?'disabled':''}>← Anterior</button>
       <button class="btn primary" onclick="go(1)" ${a===null?'disabled':''}>Siguiente →</button>
-    </div>`;
+    </div>`);
 }
 
-function renderScore() {
-  const pct = Math.round((score/questions.length)*100);
+function choose(i) {
+  if (answered[cur] !== null) return;
+  answered[cur] = i;
+  if (i === questions[cur].ans) score++;
+  renderQuestion();
+}
+
+function go(dir) {
+  cur += dir;
+  if (cur >= questions.length) { renderScore(); return; }
+  if (cur < 0) cur = 0;
+  renderQuestion();
+}
+
+async function renderScore() {
+  const pct = Math.round((score / questions.length) * 100);
   let msg = '';
   if (pct>=90) msg='¡Dominas el tema! Tienes una comprensión sólida de todas las variables que afectan el movimiento de proyectiles.';
   else if (pct>=70) msg='Buen trabajo. Repasa los conceptos sobre resistencia del aire, masa y altitud para consolidar tu aprendizaje.';
   else if (pct>=50) msg='Vas por buen camino. Te recomendamos revisar el vídeo, prestando atención al ángulo, la velocidad y la independencia de movimientos.';
   else msg='Sigue practicando. Vuelve a ver el vídeo con calma y regresa a intentarlo de nuevo.';
 
-  document.getElementById('quiz-body').innerHTML = `
+  render(`
     <div class="score-screen">
       <div class="score-circle">
         <div class="score-pct">${pct}%</div>
@@ -318,29 +312,42 @@ function renderScore() {
         <div class="stat"><div class="stat-num w">${questions.length-score}</div><div class="stat-label">INCORRECTAS</div></div>
         <div class="stat"><div class="stat-num">${questions.length}</div><div class="stat-label">TOTAL</div></div>
       </div>
-      <button class="btn primary" onclick="restart()">Intentar de nuevo</button>
-    </div>`;
+      <p class="sending" id="send-status">Guardando tu resultado...</p>
+      <button class="btn primary" onclick="reiniciar()" style="margin-top:1rem">Intentar de nuevo</button>
+    </div>`);
+
+  try {
+    const res = await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        nombre: userData.nombre,
+        correo: userData.correo,
+        puntaje: `${score} / ${questions.length}`,
+        porcentaje: pct + '%',
+        fecha: new Date().toLocaleString('es-CO')
+      })
+    });
+    const status = document.getElementById('send-status');
+    if (res.ok) {
+      status.textContent = '✓ Resultado guardado correctamente.';
+      status.style.color = '#2ecc71';
+    } else {
+      status.textContent = 'No se pudo guardar el resultado. Intenta de nuevo.';
+      status.style.color = '#e74c3c';
+    }
+  } catch(e) {
+    const status = document.getElementById('send-status');
+    if (status) { status.textContent = 'Error de conexión al guardar.'; status.style.color = '#e74c3c'; }
+  }
 }
 
-function choose(i) {
-  if (answered[cur]!==null) return;
-  answered[cur]=i;
-  if (i===questions[cur].ans) score++;
-  update();
+function reiniciar() {
+  cur = 0; score = 0; answered = new Array(questions.length).fill(null);
+  renderForm();
 }
 
-function go(dir) {
-  cur += dir;
-  if (cur>questions.length) cur=questions.length;
-  if (cur<0) cur=0;
-  update();
-}
-
-function restart() {
-  cur=0; score=0; answered=new Array(questions.length).fill(null); update();
-}
-
-update();
+renderForm();
 </script>
 </body>
 </html>
